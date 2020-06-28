@@ -2,7 +2,7 @@
   <div class="hello">
     <form action>
       <input type="text" placeholder="text" v-model="text">
-      <input type="submit" value="decide" @click="submitClick">
+      <button class="btn btn-primary" @click="submitClick">decide</button>
     </form>
   </div>
 </template>
