@@ -13,7 +13,7 @@ export default {
   name: 'HelloWorld',
   date() {
     return {
-      text: null
+      text: ''
     };
   },
   methods: {
