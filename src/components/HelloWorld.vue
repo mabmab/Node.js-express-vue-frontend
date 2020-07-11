@@ -1,9 +1,10 @@
 <template>
   <div class="hello">
-    <form action>
-      <input type="text" placeholder="text" v-model="text">
-      <button class="btn btn-primary" @click="submitClick">decide</button>
-    </form>
+    <b-form inline @submit="onSubmit">
+      <b-form-input type="text" placeholder="text" v-model="name"/>
+      <b-button type="submit" variant="primary">Submit</b-button>
+      <span>{{ response }}</span>
+    </b-form>
   </div>
 </template>
 
@@ -13,16 +14,32 @@ export default {
   name: 'HelloWorld',
   date() {
     return {
-      text: ''
+      _name: ''
     };
   },
+  computed: {
+    name: {
+      get () {
+        return this._name
+      },
+      set (value) {
+        this._name = value
+      }
+    }
+  },
+  props:
+  {
+    response: String
+  },
   methods: {
-    submitClick() {
-      Axios.get(`http://192.168.1.3:3000/hoge/${this.text}`)
+    async onSubmit(evt) {
+      evt.preventDefault();
+      await Axios.get(`http://192.168.1.3:3000/hoge/${this._name}`)
         .then(res => {
-          console.log(res.date.name)
+          this.response = "Result = " + res.data.result;
+          console.log(this.response);
         })
-        .chtch(err => {
+        .catch(err => {
           console.log(err);
         });
     }
@@ -32,18 +49,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
 </style>
