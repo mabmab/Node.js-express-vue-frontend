@@ -3,41 +3,29 @@
     <b-form inline @submit="onSubmit">
       <b-form-input type="text" placeholder="text" v-model="name"/>
       <b-button type="submit" variant="primary">Submit</b-button>
-      <span>{{ response }}</span>
+      <b-card title="Result"><span>{{ response }}</span></b-card>
     </b-form>
   </div>
 </template>
 
 <script>
-import Axios from "axios";
+import Axios from 'axios';
 export default {
   name: 'HelloWorld',
-  date() {
+  data() {
     return {
-      _name: ''
+      name: '',
+      response: 'wait...'
     };
-  },
-  computed: {
-    name: {
-      get () {
-        return this._name
-      },
-      set (value) {
-        this._name = value
-      }
-    }
-  },
-  props:
-  {
-    response: String
   },
   methods: {
     async onSubmit(evt) {
       evt.preventDefault();
-      await Axios.get(`http://192.168.1.3:3000/hoge/${this._name}`)
+      this.response = 'wait...'
+      await Axios.get(`http://192.168.1.3:3000/hoge/${this.name}`)
         .then(res => {
-          this.response = "Result = " + res.data.result;
-          console.log(this.response);
+          this.response = res.data.result;
+          console.log('Result = ' + this.response);
         })
         .catch(err => {
           console.log(err);
